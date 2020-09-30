@@ -1,0 +1,34 @@
+$backgroundcolor: #333;
+$color: #f4f4f4;
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: $backgroundcolor;
+  // box-sizing: border-box;
+  color: $color;
+}
+
+.card {
+  padding: 1rem;
+  margin: 1rem;
+  border: 2px dotted white;
+
+  input{
+    margin: .5rem 0;
+
+    &[type=submit] {
+      margin-bottom: 1rem;
+    }
+  }
+
+  table {
+    thead {
+      tr {
+      }
+    }
+  }
+}
