@@ -4,6 +4,7 @@ class Student {
     this.name = name;
     this.email = email;
     this.level = level;
+    this.editting = false;
   }
 }
 
@@ -25,13 +26,16 @@ class Storage {
 
   // fill table with students in local storage
   static printStudents() {
+    const widget = new WidgetUI();
     // retrieve students in local Storage
     const students = Storage.getStudents();
 
     // print each student to table 
     students.forEach(function (student) {
-      addStudent(student);
+      student.editting = false;
+      widget.addStudent(student);
     });
+    localStorage.setItem('students', JSON.stringify(students));
   }
 
   // add student to students array in local storage
@@ -45,9 +49,8 @@ class Storage {
   }
   // remove student from list (emails are unique identifiers)
   static removeStudent(email) {
-    // retrieve existing students
+    // remove student in array with given email
     const students = Storage.getStudents();
-    // scan through students array and remove duplicate
     students.forEach(function (student, index) {
       if (student.email === email) {
         students.splice(index, 1);
@@ -58,9 +61,8 @@ class Storage {
   }
 
   static checkDuplicate(email) {
-    // retrieve existing students
+    // scan students - check if there are any emails matching entry
     const students = Storage.getStudents();
-    // Check if there are any emails matching entry
     let duplicate = false;
     students.forEach(function (student) {
       if (student.email === email) {
@@ -71,6 +73,32 @@ class Storage {
     });
     return duplicate;
   }
+
+  static startEdittingStudent(email) {
+    // set editting to true for student in storage with given email
+    const students = Storage.getStudents();
+    students.forEach(function (student) {
+      if (student.email === email) {
+        student.editting = true;
+        return;
+      }
+    });
+    localStorage.setItem('students', JSON.stringify(students));
+  }
+
+  static saveEdittingStudent(newStudent) {
+    // replace student thats being editted with given newStudent
+    const students = Storage.getStudents();
+    students.forEach(function (student, index) {
+      if (student.editting === true) {
+        // Copy whats in newStudent to student
+        Object.assign(student, newStudent);
+        return;
+      }
+    });
+    localStorage.setItem('students', JSON.stringify(students));
+  }
+
 }
 
 // Widget Interface -- instantiate when modifying UI
@@ -145,8 +173,7 @@ class WidgetUI {
     edit.firstChild.style.display = 'none';
     edit.querySelector('a:nth-child(2)').style.display = 'inline';
 
-    // Remove previous entry from local Storage
-    Storage.removeStudent(emailVal);
+    Storage.startEdittingStudent(emailVal);
   }
 
   saveStudent(student) {
@@ -171,11 +198,11 @@ class WidgetUI {
     save.querySelector('a:nth-child(2)').style.display = 'none';
 
     // Push new entry to local Storage
-    Storage.pushStudent(new Student(nameVal, emailVal, levelVal));
+    Storage.saveEdittingStudent(new Student(nameVal, emailVal, levelVal));
   }
 }
 
-// DOM Load Event - Fill table with students from local storage
+// DOM Load Event - Fill table with students from Local Storage
 document.addEventListener('DOMContentLoaded', Storage.printStudents);
 
 // Student Submit Listener
@@ -235,8 +262,6 @@ document.getElementById('student-table').addEventListener('click', function (e) 
   }
   e.preventDefault();
 });
-
-
 
 // Save Entry Listener
 document.getElementById('student-table').addEventListener('click', function (e) {
