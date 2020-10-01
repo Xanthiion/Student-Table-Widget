@@ -56,6 +56,21 @@ class Storage {
     // restore students in local storage
     localStorage.setItem('students', JSON.stringify(students));
   }
+
+  static checkDuplicate(email) {
+    // retrieve existing students
+    const students = Storage.getStudents();
+    // Check if there are any emails matching entry
+    let duplicate = false;
+    students.forEach(function (student) {
+      if (student.email === email) {
+        // Duplicate found
+        duplicate = true;
+        return;
+      }
+    });
+    return duplicate;
+  }
 }
 
 // DOM Load Event
@@ -67,12 +82,15 @@ document.getElementById('student-form').addEventListener('submit', function (e) 
   const name = document.getElementById('name').value,
     email = document.getElementById('email').value,
     level = document.getElementById('levels').value;
-
+  console.log(Storage.checkDuplicate(email));
   // Validate input
   if (name === '' || email === '' || level === 'default') {
-    // Invalid Reuslts
-    // Ping user to fix problems
+    // Invalid Reuslts - empty field
     pingAlert('Please fill in all fields', 'error');
+
+  } else if (Storage.checkDuplicate(email)) {
+    // Invalid Results - duplicate entry
+    pingAlert('Student with this email already exists', 'error');
   } else {
     // Valid Results
     // Add student to table, clear text fields, ping user: entry was successful
@@ -85,6 +103,7 @@ document.getElementById('student-form').addEventListener('submit', function (e) 
   // Stop page refresh
   e.preventDefault();
 });
+
 
 function addStudent(student) {
   // Grab table element
