@@ -13,7 +13,7 @@ body {
   border: 2px solid black;
   border-radius: 20px 20px 2px 20px;
   width: 40rem;
-  height: 25rem;
+  height: 30rem;
   overflow: hidden;
   position: fixed;
   bottom: 1rem;
@@ -54,10 +54,24 @@ body {
           #widget form div input[type=submit]:hover {
             background-color: #78ff9a;
             cursor: pointer; }
+  #widget #search-filter {
+    width: 100%;
+    padding: .6rem; }
+    #widget #search-filter label {
+      display: block; }
+    #widget #search-filter input {
+      border: none;
+      border-bottom: 1px gray solid;
+      width: 100%;
+      padding: .1rem;
+      margin-top: .1rem;
+      border-radius: 5px 5px 0 0; }
+      #widget #search-filter input:focus {
+        outline: none; }
   #widget #table-wrap {
     position: relative; }
     #widget #table-wrap #scroll {
-      height: 11rem;
+      height: 12rem;
       overflow-y: auto; }
   #widget table {
     border-collapse: collapse;
@@ -113,19 +127,3 @@ body {
       transition: background-color 1s; }
       #widget table tbody .delete:hover {
         background-color: #b84b4b; }
-
-#minimize-widget {
-  height: 2rem;
-  width: 2rem;
-  background: black;
-  border-top: 2px solid black;
-  border-left: 2px solid black;
-  display: inline-block;
-  position: fixed;
-  top: 400px;
-  left: 400px; }
-  #minimize-widget #icon {
-    margin: .25rem;
-    height: 1.35rem;
-    width: 1.35rem;
-    border: 1px solid black; }

@@ -26,7 +26,7 @@ body {
   border: 2px solid black;
   border-radius: 20px 20px 2px 20px;
   width: 40rem;
-  height: 25rem;
+  height: 30rem;
   overflow: hidden;
   position: fixed;
   bottom: 1rem;
@@ -88,11 +88,32 @@ body {
     }
   }
   
+  #search-filter {
+    width: 100%;
+    padding: .6rem;
+    label {
+      display: block;
+    }
+
+    input {
+      border: none;
+      border-bottom: 1px gray solid;
+      width: 100%;
+      padding: .1rem;
+      margin-top: .1rem;
+      border-radius: 5px 5px 0 0;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+  
 
   #table-wrap {
     position: relative;
     #scroll {
-      height: 11rem;
+      height: 12rem;
       overflow-y: auto;
     }
   }
@@ -179,23 +200,4 @@ body {
       }
     }
   }
-}  
-
-#minimize-widget {
-  height: 2rem;
-  width: 2rem;
-  background: black;
-  border-top: 2px solid black;
-  border-left: 2px solid black;
-  display: inline-block;
-  position: fixed;
-  top: 400px;
-  left: 400px;
-
-  #icon {
-    margin: .25rem;
-    height: 1.35rem;
-    width: 1.35rem;
-    border: 1px solid black;
-  }
-}
+} 

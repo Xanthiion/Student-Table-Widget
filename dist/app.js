@@ -110,7 +110,7 @@ class WidgetUI {
     // Fill table entry with student information
     const entry = document.createElement('tr');
     entry.innerHTML = `
-      <td>${student.name}</td>
+      <td class="student-name">${student.name}</td>
       <td>${student.email}</td>
       <td>${student.level}</td>
       <td><a href="#" class="edit">Edit</a><a href="#" class="save">Save</a><a href="#" class="delete">X</a></td>
@@ -242,6 +242,21 @@ document.getElementById('student-form').addEventListener('submit', function (e) 
   // Stop page refresh
   e.preventDefault();
 });
+
+document.getElementById('search-input').addEventListener('keyup', function (e) {
+  const input = e.target.value.toLowerCase();
+
+  document.querySelectorAll('.student-name').forEach(function (studentName) {
+    const name = studentName.textContent;
+
+    if (name.toLowerCase().indexOf(input) != -1) {
+      studentName.parentNode.style = '';
+    } else {
+      studentName.parentNode.style.display = 'none';
+    }
+  });
+});
+
 
 // Delete Entry Listener
 document.getElementById('student-table').addEventListener('click', function (e) {
