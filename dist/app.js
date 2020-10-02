@@ -156,7 +156,7 @@ class WidgetUI {
     const name = student.querySelector('td:nth-child(1)'),
       email = student.querySelector('td:nth-child(2)'),
       level = student.querySelector('td:nth-child(3)'),
-      edit = student.querySelector('td:nth-child(4)');
+      save = student.querySelector('td:nth-child(4) a:nth-child(2)');
 
     // Copy values from elements
     const nameVal = name.textContent,
@@ -175,9 +175,14 @@ class WidgetUI {
         <option value="Senior">Senior</option>
       </select>`;
 
-    // Make Edit button invisible and Save button visible
-    edit.firstChild.style.display = 'none';
-    edit.querySelector('a:nth-child(2)').style.display = 'inline';
+    // Make all edit+delete buttons invisible, make save button visible
+    document.querySelectorAll('.edit').forEach(function (edit) {
+      edit.style.display = 'none';
+    });
+    document.querySelectorAll('.delete').forEach(function (del) {
+      del.style.display = 'none';
+    });
+    save.style.display = 'inline';
 
     Storage.startEdittingStudent(emailVal);
   }
@@ -187,7 +192,7 @@ class WidgetUI {
     const name = student.querySelector('td:nth-child(1)'),
       email = student.querySelector('td:nth-child(2)'),
       level = document.getElementById('newLevels'),
-      save = student.querySelector('td:nth-child(4)');
+      save = student.querySelector('td:nth-child(4) a:nth-child(2)');
 
     // Copy values from elements
     const nameVal = name.firstChild.value,
@@ -199,9 +204,14 @@ class WidgetUI {
     email.innerHTML = emailVal;
     level.parentElement.innerHTML = levelVal;
 
-    // Make edit button visible and save invisible
-    save.firstChild.style.display = 'inline';
-    save.querySelector('a:nth-child(2)').style.display = 'none';
+    // Make all edit+delete buttons visible, make save button invisible
+    document.querySelectorAll('.edit').forEach(function (edit) {
+      edit.style.display = 'inline';
+    });
+    document.querySelectorAll('.delete').forEach(function (del) {
+      del.style.display = 'inline';
+    });
+    save.style.display = 'none';
 
     // Push new entry to local Storage
     Storage.saveEdittingStudent(new Student(nameVal, emailVal, levelVal));
@@ -244,14 +254,18 @@ document.getElementById('student-form').addEventListener('submit', function (e) 
 });
 
 document.getElementById('search-input').addEventListener('keyup', function (e) {
+  // grab input from search field
   const input = e.target.value.toLowerCase();
 
   document.querySelectorAll('.student-name').forEach(function (studentName) {
     const name = studentName.textContent;
 
+    // If indexOf returns a position then the input is present in the name
     if (name.toLowerCase().indexOf(input) != -1) {
+      // get rid of "display: none" if present; persist entry
       studentName.parentNode.style = '';
     } else {
+      // name filtered out
       studentName.parentNode.style.display = 'none';
     }
   });
