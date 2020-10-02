@@ -65,13 +65,26 @@ class Storage {
     const students = Storage.getStudents();
     let duplicate = false;
     students.forEach(function (student) {
-      if (student.email === email) {
+      if (student.email === email && student.editting === false) {
         // Duplicate found
         duplicate = true;
         return;
       }
     });
     return duplicate;
+  }
+  static checkEditting() {
+    // scan students - check if there are any emails matching entry
+    const students = Storage.getStudents();
+    let editting = false;
+    students.forEach(function (student) {
+      if (student.editting === true) {
+        // A student is being editted
+        editting = true;
+        return;
+      }
+    });
+    return editting;
   }
 
   static startEdittingStudent(email) {
@@ -98,7 +111,6 @@ class Storage {
     });
     localStorage.setItem('students', JSON.stringify(students));
   }
-
 }
 
 // Widget Interface -- instantiate when modifying UI
@@ -115,6 +127,12 @@ class WidgetUI {
       <td>${student.level}</td>
       <td><a href="#" class="edit">Edit</a><a href="#" class="save">Save</a><a href="#" class="delete">X</a></td>
     `;
+
+    // Check if a student is being editted, if so remove entries edit+del btns
+    if (Storage.checkEditting()) {
+      entry.querySelector('.edit').style.display = 'none';
+      entry.querySelector('.delete').style.display = 'none';
+    }
 
     // Print entry to table
     table.appendChild(entry);
@@ -189,10 +207,16 @@ class WidgetUI {
     });
     save.style.display = 'inline';
 
+    // Disable search during edit
+    document.getElementById('search-input').disabled = true;
+
+    // tell storage current student is being editted
     Storage.startEdittingStudent(emailVal);
   }
 
   saveStudent(student) {
+    const widget = new WidgetUI();
+
     // grab all elements within the entry
     const name = student.querySelector('td:nth-child(1)'),
       email = student.querySelector('td:nth-child(2)'),
@@ -204,22 +228,32 @@ class WidgetUI {
       emailVal = email.firstChild.value,
       levelVal = level.value;
 
-    // Replace elements with text nodes of their content
-    name.innerHTML = nameVal;
-    email.innerHTML = emailVal;
-    level.parentElement.innerHTML = levelVal;
+    if (Storage.checkDuplicate(emailVal)) {
+      // Duplicate Found - invalid entry
+      widget.pingAlert('Student with this email already exists', 'error');
+    } else {
+      // Valid Entry
+      widget.pingAlert('New Student saved', 'success');
+      // Replace elements with text nodes of their content
+      name.innerHTML = nameVal;
+      email.innerHTML = emailVal;
+      level.parentElement.innerHTML = levelVal;
 
-    // Make all edit+delete buttons visible, make save button invisible
-    document.querySelectorAll('.edit').forEach(function (edit) {
-      edit.style.display = 'inline';
-    });
-    document.querySelectorAll('.delete').forEach(function (del) {
-      del.style.display = 'inline';
-    });
-    save.style.display = 'none';
+      // Make all edit+delete buttons visible, make save button invisible
+      document.querySelectorAll('.edit').forEach(function (edit) {
+        edit.style.display = 'inline';
+      });
+      document.querySelectorAll('.delete').forEach(function (del) {
+        del.style.display = 'inline';
+      });
+      save.style.display = 'none';
 
-    // Push new entry to local Storage
-    Storage.saveEdittingStudent(new Student(nameVal, emailVal, levelVal));
+      // Re-Enable Search Feature
+      document.getElementById('search-input').disabled = false;
+
+      // Push new entry to local Storage
+      Storage.saveEdittingStudent(new Student(nameVal, emailVal, levelVal));
+    }
   }
 }
 

@@ -3,7 +3,7 @@ $widgetbackcolor: #f4f4f4;
 $color: #333;
 $widgetcolor: #6fa1ff;
 $tablecolor: #6fa1ffa2;
-$secondarywidgetcolor: rgb(96, 226, 172);
+$secondarywidgetcolor: rgba(96, 226, 172, 0.644);
 $success: rgba(64, 214, 64, .5);
 $error: rgba(255,0,0,.5);
 
@@ -172,38 +172,42 @@ body {
       .save {
         display: none;
         text-decoration: none;
-        background-color: green;
+        background-color: orange;
         padding: 3px 5px;
         border-radius: 2px;
-        color: white;
-        transition: background-color 1s;
+        color: #333;
+        border: 1px gray solid;
+        transition: background-color 1s, color 1s;
 
         &:hover {
-          background-color: rgb(0, 255, 0);
+          background-color: rgba(0, 255, 0, 0.493);
+          color: #333;
         }
       }
       .edit {
         text-decoration: none;
-        background-color: green;
+        background-color: rgb(240, 240, 127);
+        color: #333;
         padding: 3px 5px;
+        border: 1px gray solid;
         border-radius: 2px 0 0 2px;
-        color: white;
         transition: background-color 1s;
 
         &:hover {
-          background-color: lightgreen;
+          background-color: orange;
         }
       }
       .delete {
         text-decoration: none;
-        background-color: red;
+        background-color: rgba(255, 0, 0, 0.7);
         padding: 3px 5px;
         border-radius: 0 2px 2px 0;
-        color: white;
+        color: #333;
+        border: 1px gray solid;
         transition: background-color 1s;
 
         &:hover {
-          background-color: rgb(184, 75, 75);
+          background-color: rgba(255, 0, 43, 0.9);
         }
       }
     }

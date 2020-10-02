@@ -55,7 +55,7 @@ body {
         #widget form div input[type=submit] {
           height: 100%;
           border-radius: 5px;
-          background-color: #60e2ac;
+          background-color: rgba(96, 226, 172, 0.644);
           transition: background-color 1s; }
           #widget form div input[type=submit]:hover {
             background-color: #78ff9a;
@@ -108,28 +108,32 @@ body {
     #widget table tbody .save {
       display: none;
       text-decoration: none;
-      background-color: green;
+      background-color: orange;
       padding: 3px 5px;
       border-radius: 2px;
-      color: white;
-      transition: background-color 1s; }
+      color: #333;
+      border: 1px gray solid;
+      transition: background-color 1s, color 1s; }
       #widget table tbody .save:hover {
-        background-color: lime; }
+        background-color: rgba(0, 255, 0, 0.493);
+        color: #333; }
     #widget table tbody .edit {
       text-decoration: none;
-      background-color: green;
+      background-color: #f0f07f;
+      color: #333;
       padding: 3px 5px;
+      border: 1px gray solid;
       border-radius: 2px 0 0 2px;
-      color: white;
       transition: background-color 1s; }
       #widget table tbody .edit:hover {
-        background-color: lightgreen; }
+        background-color: orange; }
     #widget table tbody .delete {
       text-decoration: none;
-      background-color: red;
+      background-color: rgba(255, 0, 0, 0.7);
       padding: 3px 5px;
       border-radius: 0 2px 2px 0;
-      color: white;
+      color: #333;
+      border: 1px gray solid;
       transition: background-color 1s; }
       #widget table tbody .delete:hover {
-        background-color: #b84b4b; }
+        background-color: rgba(255, 0, 43, 0.9); }
