@@ -5,13 +5,20 @@
   box-sizing: border-box; }
 
 body {
-  background: #f4f4f4;
-  color: #333; }
+  background: rgba(108, 172, 255, 0.274);
+  height: 2000px;
+  color: #333;
+  min-width: 45rem;
+  overflow: none; }
+  body h1 {
+    margin: 1rem; }
 
 #widget {
+  z-index: 10;
   margin: 1rem;
   border: 2px solid black;
-  border-radius: 20px 20px 2px 20px;
+  border-radius: 20px 20px 0 20px;
+  background-color: #f4f4f4;
   width: 40rem;
   height: 30rem;
   overflow: hidden;

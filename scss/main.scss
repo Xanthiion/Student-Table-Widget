@@ -16,15 +16,24 @@ $error: rgba(255,0,0,.5);
 }
 
 body {
-  background: $backgroundcolor;
-  
+  background: rgba(108, 172, 255, 0.274);
+  height: 2000px;
   color: $color;
+  min-width: 45rem;
+  overflow: none;
+  h1 {
+    margin: 1rem;
+  }
+
 }
 
+// Widget CSS
 #widget {
+  z-index: 10;
   margin: 1rem;
   border: 2px solid black;
-  border-radius: 20px 20px 2px 20px;
+  border-radius: 20px 20px 0 20px;
+  background-color: #f4f4f4;;
   width: 40rem;
   height: 30rem;
   overflow: hidden;
