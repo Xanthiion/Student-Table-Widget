@@ -4,7 +4,7 @@ class Student {
     this.name = name;
     this.email = email;
     this.level = level;
-    this.editting = false;
+    this.editting = false; // signifies if entry is being editted
   }
 }
 
@@ -141,9 +141,9 @@ class WidgetUI {
   pingAlert(alert, alertType) {
     // Clear all existing timeouts - Code sourced from:
     // https://stackoverflow.com/questions/8860188/javascript-clear-all-timeouts
-    let id = window.setTimeout(function () { }, 0);
-    while (id--) {
-      window.clearTimeout(id); // will do nothing if no timeout with id is present
+    let timeoutID = window.setTimeout(function () { }, 0);
+    while (timeoutID--) {
+      window.clearTimeout(timeoutID);
     }
 
     // Remove existing alert if present
@@ -223,21 +223,17 @@ class WidgetUI {
       level = document.getElementById('newLevels'),
       save = student.querySelector('td:nth-child(4) a:nth-child(2)');
 
-    // Copy values from elements
-    const nameVal = name.firstChild.value,
-      emailVal = email.firstChild.value,
-      levelVal = level.value;
+    // Create student with input vals
+    const newStudent = new Student(name.firstChild.value, email.firstChild.value, level.value);
 
-    if (Storage.checkDuplicate(emailVal)) {
-      // Duplicate Found - invalid entry
-      widget.pingAlert('Student with this email already exists', 'error');
-    } else {
+    // Check if new entry is valid
+    if (Form.validateInput(newStudent, email.firstChild)) {
       // Valid Entry
       widget.pingAlert('New Student saved', 'success');
       // Replace elements with text nodes of their content
-      name.innerHTML = nameVal;
-      email.innerHTML = emailVal;
-      level.parentElement.innerHTML = levelVal;
+      name.innerHTML = newStudent.name;
+      email.innerHTML = newStudent.email;
+      level.parentElement.innerHTML = newStudent.level;
 
       // Make all edit+delete buttons visible, make save button invisible
       document.querySelectorAll('.edit').forEach(function (edit) {
@@ -252,8 +248,32 @@ class WidgetUI {
       document.getElementById('search-input').disabled = false;
 
       // Push new entry to local Storage
-      Storage.saveEdittingStudent(new Student(nameVal, emailVal, levelVal));
+      Storage.saveEdittingStudent(newStudent);
     }
+  }
+}
+
+// Form Class
+class Form {
+  static validateInput(student, email) {
+    const widget = new WidgetUI();
+
+    // Ensure names are filled, email is valid, and entry is not a duplicate
+    if (student.name === '' || student.email === '' || student.level === 'default') {
+      // Invalid Reuslts - empty field
+      widget.pingAlert('Please fill in all fields', 'error');
+      return false;
+    } else if (!email.checkValidity()) {
+      // Invalid Results - invalid email
+      widget.pingAlert('Please enter a valid email', 'error');
+      return false;
+    } else if (Storage.checkDuplicate(student.email)) {
+      // Invalid Results - duplicate entry
+      widget.pingAlert('Student with this email already exists', 'error');
+      return false;
+    }
+
+    return true;
   }
 }
 
@@ -264,25 +284,17 @@ document.addEventListener('DOMContentLoaded', Storage.printStudents);
 document.getElementById('student-form').addEventListener('submit', function (e) {
   const widget = new WidgetUI();
   // Pull values from input streams
-  const name = document.getElementById('name').value,
-    email = document.getElementById('email').value,
-    level = document.getElementById('levels').value;
+  const name = document.getElementById('name'),
+    email = document.getElementById('email'),
+    level = document.getElementById('levels');
 
+  const student = new Student(name.value, email.value, level.value);
   // Validate input
-  if (name === '' || email === '' || level === 'default') {
-    // Invalid Reuslts - empty field
-    widget.pingAlert('Please fill in all fields', 'error');
-
-  } else if (Storage.checkDuplicate(email)) {
-    // Invalid Results - duplicate entry
-    widget.pingAlert('Student with this email already exists', 'error');
-
-  } else {
-    // Valid Results -- Add student, clear text fields, ping user
-    const student = new Student(name, email, level);
+  if (Form.validateInput(student, email)) {
+    // Valid Input - Add Entry
     widget.addStudent(student);
     widget.clearInputFields();
-    widget.pingAlert('Student Added', 'success');
+    widget.pingAlert('Student added', 'success');
 
     // Push student info to local storage
     Storage.pushStudent(student);
@@ -299,9 +311,9 @@ document.getElementById('search-input').addEventListener('keyup', function (e) {
   document.querySelectorAll('.student-name').forEach(function (studentName) {
     const name = studentName.textContent;
 
-    // If indexOf returns a position then the input is present in the name
-    if (name.toLowerCase().indexOf(input) != -1) {
-      // get rid of "display: none" if present; persist entry
+    // check if input matches any student names
+    if (name.toLowerCase().indexOf(input) == 0) {
+      // get rid of "display: none" if present; show entry
       studentName.parentNode.style = '';
     } else {
       // name filtered out
@@ -309,7 +321,6 @@ document.getElementById('search-input').addEventListener('keyup', function (e) {
     }
   });
 });
-
 
 // Delete Entry Listener
 document.getElementById('student-table').addEventListener('click', function (e) {
