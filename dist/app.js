@@ -121,6 +121,13 @@ class WidgetUI {
   }
 
   pingAlert(alert, alertType) {
+    // Clear all existing timeouts - Code sourced from:
+    // https://stackoverflow.com/questions/8860188/javascript-clear-all-timeouts
+    let id = window.setTimeout(function () { }, 0);
+    while (id--) {
+      window.clearTimeout(id); // will do nothing if no timeout with id is present
+    }
+
     // Remove existing alert if present
     if (document.querySelector('.alert') !== null) {
       document.querySelector('.alert').remove()
@@ -136,12 +143,10 @@ class WidgetUI {
     // Push alert div to bottom of widget
     end.parentNode.insertBefore(div, end.nextSibling);
 
-    // Remove Alert after 5 seconds --- removed for now, needs to be reworked
-    // setTimeout(function () {
-    //   if (document.querySelector('.alert') !== null) {
-    //     document.querySelector('.alert').remove()
-    //   }
-    // }, 5000);
+    // Remove Alert after 5 seconds
+    setTimeout(function () {
+      document.querySelector('.alert').remove()
+    }, 5000);
   }
 
   clearInputFields() {
