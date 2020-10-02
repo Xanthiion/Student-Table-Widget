@@ -1,5 +1,5 @@
 # Student-Table Widget Documentation
 
-A JavaScript widgit that presents an interactive table of students to the user. A form within the widget takes in a students name, email, and level (freshman, sophomore, ...) which when submitted are appended onto an interactive table. Entries can be deleted from this table by pressing the delete key (X). 
+A JavaScript widgit that presents an interactive table of students to the user. A form within the widget takes in a students name, email, and level (freshman, sophomore, ...) which when submitted are appended onto an interactive table. Entries can be editted within this table by pressing the Edit key, or deleted by pressing the Delete key (X). When a student entry is being editted its name email and level convert into a sub-form. When the subform is completed, it can be saved by pressing the Save key. An alert panel on the bottom of the widget informs the user of any problems if their submissision was illegal, as well as gives reinforcement if a submission is successful.
 
 This is a sample widgit for a screening test being conducted by Prof Porquet-Lupine in order to participate in on the Code Gist Project.

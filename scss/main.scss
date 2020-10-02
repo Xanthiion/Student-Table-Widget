@@ -1,31 +1,201 @@
-$backgroundcolor: #333;
-$color: #f4f4f4;
+$backgroundcolor: #f4f4f4;
+$widgetbackcolor: #f4f4f4;
+$color: #333;
+$widgetcolor: #6fa1ff;
+$tablecolor: #6fa1ffa2;
+$secondarywidgetcolor: rgb(96, 226, 172);
+$success: rgba(64, 214, 64, .5);
+$error: rgba(255,0,0,.5);
+
 
 * {
   margin: 0;
   padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
 }
 
 body {
   background: $backgroundcolor;
-  // box-sizing: border-box;
+  
   color: $color;
 }
 
-.card {
-  padding: 1rem;
+#widget {
   margin: 1rem;
-  border: 2px dotted white;
+  border: 2px solid black;
+  border-radius: 20px 20px 2px 20px;
+  width: 40rem;
+  height: 25rem;
+  overflow: hidden;
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  
+  hr {
+    background-color: black;
+  }
 
-  input{
-    margin: .5rem 0;
+  h3 {
+    display: block;
+    background: $widgetcolor;
+    border-bottom: 1px solid black;
+    padding: 10px;
+  }
 
-    &[type=submit] {
-      margin-bottom: 1rem;
+  .alert {
+    height: 3rem;
+    width: 100%;
+    padding: .7rem;
+  }
+  .error {
+    background-color: $error;
+  }
+  .success {
+    background-color: $success;
+  }
+
+  form {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+
+    div {
+      padding: .6rem;
+      
+      label {
+        display: block;
+      }
+      select {
+        width: 90%;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      input {
+        width: 90%;
+        &[type=submit] {
+          height: 100%;
+          border-radius: 5px;
+          background-color: $secondarywidgetcolor;
+          transition: background-color 1s;
+  
+          &:hover {
+            background-color: #78ff9a;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+  
+
+  #table-wrap {
+    position: relative;
+    #scroll {
+      height: 11rem;
+      overflow-y: auto;
     }
   }
 
-  .save {
-    display: none;
+  table{
+    border-collapse: collapse;
+    width: 100%;
+    text-align: left;
+    thead {
+      
+      th{
+        padding: .4rem;
+        border: 1px solid #3f3f3f;
+        background-color: $tablecolor;
+
+        &:nth-child(1){
+          width: 25%;
+          border-left: none;
+        }
+        &:nth-child(2){
+          width: 40%;
+        }
+        &:nth-child(3){
+          width: 20%;
+        }
+        &:nth-child(4){
+          border-right: none;
+          width: 15%;
+        }
+      }
+    }
+    tbody{
+      tr {
+        td {
+          padding: .4rem;
+          border-top: 1px solid #3f3f3f;
+          border-bottom: 1px solid black;
+          input,select {
+            width: 90%;
+          }
+
+        }
+
+        &:nth-child(4) {
+          border: none;
+        }
+      }
+      .save {
+        display: none;
+        text-decoration: none;
+        background-color: green;
+        padding: 3px 5px;
+        border-radius: 2px;
+        color: white;
+        transition: background-color 1s;
+
+        &:hover {
+          background-color: rgb(0, 255, 0);
+        }
+      }
+      .edit {
+        text-decoration: none;
+        background-color: green;
+        padding: 3px 5px;
+        border-radius: 2px 0 0 2px;
+        color: white;
+        transition: background-color 1s;
+
+        &:hover {
+          background-color: lightgreen;
+        }
+      }
+      .delete {
+        text-decoration: none;
+        background-color: red;
+        padding: 3px 5px;
+        border-radius: 0 2px 2px 0;
+        color: white;
+        transition: background-color 1s;
+
+        &:hover {
+          background-color: rgb(184, 75, 75);
+        }
+      }
+    }
+  }
+}  
+
+#minimize-widget {
+  height: 2rem;
+  width: 2rem;
+  background: black;
+  border-top: 2px solid black;
+  border-left: 2px solid black;
+  display: inline-block;
+  position: fixed;
+  top: 400px;
+  left: 400px;
+
+  #icon {
+    margin: .25rem;
+    height: 1.35rem;
+    width: 1.35rem;
+    border: 1px solid black;
   }
 }

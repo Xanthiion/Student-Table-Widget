@@ -12,7 +12,7 @@
   <h1>Some Sample Website</h1>
 
   <!-- Widgit HTML -->
-  <div class="card">
+  <div id="widget">
     <h3>Register Student</h1>
       <form id="student-form">
         <div>
@@ -37,18 +37,26 @@
           <input type="submit" value="Submit">
         </div>
       </form>
-      <hr>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Level</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="student-table"></tbody>
-      </table>
+      <div id="table-wrap">
+        <div id="scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Level</th>
+                <th>Modify</th>
+              </tr>
+            </thead>
+            <tbody id="student-table"></tbody>
+          </table>
+        </div>
+      </div>
+      <hr id="end">
+  </div>
+
+  <div id="minimize-widgit">
+    <div id="icon"></div>
   </div>
   <!-- End of Widget HTML -->
 

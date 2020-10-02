@@ -113,7 +113,7 @@ class WidgetUI {
       <td>${student.name}</td>
       <td>${student.email}</td>
       <td>${student.level}</td>
-      <td><a href="#" class="edit">Edit </a><a href="#" class="save">Save </a><a href="#" class="delete">X</a></td>
+      <td><a href="#" class="edit">Edit</a><a href="#" class="save">Save</a><a href="#" class="delete">X</a></td>
     `;
 
     // Print entry to table
@@ -121,21 +121,27 @@ class WidgetUI {
   }
 
   pingAlert(alert, alertType) {
-    const card = document.querySelector('.card');
-    const form = document.querySelector('#student-form');
+    // Remove existing alert if present
+    if (document.querySelector('.alert') !== null) {
+      document.querySelector('.alert').remove()
+    }
+    // Grab end of widget
+    const end = document.querySelector('#end');
 
     // Create new alert div with given parameters
     const div = document.createElement('div');
     div.className = `alert ${alertType}`;
     div.appendChild(document.createTextNode(alert));
 
-    // Push alert div to top of form
-    card.insertBefore(div, form);
+    // Push alert div to bottom of widget
+    end.parentNode.insertBefore(div, end.nextSibling);
 
-    // Remove Alert after 5 seconds
-    setTimeout(function () {
-      document.querySelector('.alert').remove();
-    }, 5000);
+    // Remove Alert after 5 seconds --- removed for now, needs to be reworked
+    // setTimeout(function () {
+    //   if (document.querySelector('.alert') !== null) {
+    //     document.querySelector('.alert').remove()
+    //   }
+    // }, 5000);
   }
 
   clearInputFields() {
